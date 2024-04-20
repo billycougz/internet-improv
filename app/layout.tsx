@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { WebSocketProvider } from "./WebSocketContext";
+import AppContainer from "./AppContainer";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +19,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <Head>
+        { /* Prevent zoom on something like input focus */}
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+      </Head>
+      <body className={inter.className}>
+        <WebSocketProvider>
+          <AppContainer>
+            {children}
+          </AppContainer>
+        </WebSocketProvider>
+      </body>
     </html>
   );
 }
